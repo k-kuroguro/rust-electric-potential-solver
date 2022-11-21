@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "equipotential-solver"
+name = "electric-potential-solver"
 version = "0.1.0"
