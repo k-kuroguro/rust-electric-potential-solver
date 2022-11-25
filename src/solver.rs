@@ -1,4 +1,4 @@
-use std::{f64::consts::PI, fs, io::Write};
+use std::{f64::consts::PI, io::Write};
 
 pub struct Solver {
    delta: f64,
@@ -178,10 +178,10 @@ impl Solver {
             }
             let value = self.get_pixel(i, j);
             let new_value = self.calc_new_value(
-               self.get_pixel(i, self.add_y_index(j, 1)),
-               self.get_pixel(self.add_x_index(i, 1), j),
-               self.get_pixel(i, self.sub_y_index(j, 1)),
-               self.get_pixel(self.sub_x_index(i, 1), j),
+               self.get_pixel(i, self.saturating_add_y_index(j, 1)),
+               self.get_pixel(self.saturating_add_x_index(i, 1), j),
+               self.get_pixel(i, self.saturating_sub_y_index(j, 1)),
+               self.get_pixel(self.saturating_sub_x_index(i, 1), j),
             );
             self.set_pixel(i, j, (1. - self.omega) * value + self.omega * new_value);
             error = (new_value - value).max(error);
@@ -198,19 +198,19 @@ impl Solver {
       i == 0 || j == 0 || i == self.n_x || j == self.n_y
    }
 
-   fn add_x_index(&self, i: usize, delta_i: usize) -> usize {
+   fn saturating_add_x_index(&self, i: usize, delta_i: usize) -> usize {
       i.saturating_add(delta_i).min(self.n_x)
    }
 
-   fn add_y_index(&self, j: usize, delta_j: usize) -> usize {
+   fn saturating_add_y_index(&self, j: usize, delta_j: usize) -> usize {
       j.saturating_add(delta_j).min(self.n_y)
    }
 
-   fn sub_x_index(&self, i: usize, delta_i: usize) -> usize {
+   fn saturating_sub_x_index(&self, i: usize, delta_i: usize) -> usize {
       i.saturating_sub(delta_i).min(self.n_x)
    }
 
-   fn sub_y_index(&self, j: usize, delta_j: usize) -> usize {
+   fn saturating_sub_y_index(&self, j: usize, delta_j: usize) -> usize {
       j.saturating_sub(delta_j).min(self.n_y)
    }
 }
