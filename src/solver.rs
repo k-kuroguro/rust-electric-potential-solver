@@ -1,4 +1,4 @@
-use std::{f64::consts::PI, io::Write};
+use std::{f64::consts::PI, fs, io::Write};
 
 pub struct Solver {
    delta: f64,
